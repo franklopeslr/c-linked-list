@@ -50,9 +50,9 @@ list_get_node_by_value(list, &value);
 
 // exemple
 int ival = int_cast(list_get_value_by_index(int_list, 1));
-int dval = int_double(list_get_value_by_index(double_list, 2));
-int cval = int_char(list_get_value_by_index(char_list, 3));
-int sval = int_string(list_get_value_by_index(string_list, 4));
+int dval = double_cast(list_get_value_by_index(double_list, 2));
+int cval = char_cast(list_get_value_by_index(char_list, 3));
+int sval = string_cast(list_get_value_by_index(string_list, 4));
 
 ```
 
