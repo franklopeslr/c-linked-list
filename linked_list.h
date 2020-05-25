@@ -56,11 +56,11 @@ void list_iterate(linked_list_t list, void (*callback)(callback_param_t data));
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
-linked_list_t list_filter(linked_list_t list, uint8_t (*test)(callback_param_t data));
+linked_list_t list_filter(linked_list_t list, uint8_t (*test_function)(callback_param_t data));
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
-linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test)(callback_param_t data));
+linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test_function)(callback_param_t data));
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))

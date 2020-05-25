@@ -48,9 +48,9 @@ void list_iterate(linked_list_t list, void (*callback)(callback_param_t data))
 	}
 }
 
-linked_list_t list_filter(linked_list_t list, uint8_t (*test)(callback_param_t data))
+linked_list_t list_filter(linked_list_t list, uint8_t (*test_function)(callback_param_t data))
 {
-	if(list == NULL || list->base == NULL || list->length == 0 || test == NULL)
+	if(list == NULL || list->base == NULL || list->length == 0 || test_function == NULL)
 	{
 		return NULL;
 	}
@@ -63,28 +63,28 @@ linked_list_t list_filter(linked_list_t list, uint8_t (*test)(callback_param_t d
 		switch(list->type)
 		{
 			case STRING:
-			if(test(&(current)->value.string))
+			if(test_function(&(current)->value.string))
 			{
 				list_add2top(filtered_list, current->value.string);
 			}
 			break;
 
 			case INTEGER:
-			if(test(&(current)->value.integer))
+			if(test_function(&(current)->value.integer))
 			{
 				list_add2top(filtered_list, &(current)->value.integer);
 			}
 			break;
 
 			case DECIMAL:
-			if(test(&(current)->value.decimal))
+			if(test_function(&(current)->value.decimal))
 			{
 				list_add2top(filtered_list, &(current)->value.decimal);
 			}
 			break;
 
 			case CHARACTER:
-			if(test(&(current)->value.character))
+			if(test_function(&(current)->value.character))
 			{
 				list_add2top(filtered_list, &(current)->value.character);
 			}
@@ -94,14 +94,14 @@ linked_list_t list_filter(linked_list_t list, uint8_t (*test)(callback_param_t d
 	return filtered_list;
 }
 
-linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test)(callback_param_t data))
+linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test_function)(callback_param_t data))
 {
-	if(list == NULL || test == NULL)
+	if(list == NULL || test_function == NULL)
 	{
 		return NULL;
 	}
 	
-	linked_list_t filtered_list = list_filter(list, test);
+	linked_list_t filtered_list = list_filter(list, test_function);
 	free_list(list);
 	return filtered_list;
 }
@@ -483,20 +483,16 @@ void list_show_attributes(linked_list_t list)
 	node_t current = list->base;
 	int cc_fmt = 0;
 
+	#define LOCAL_DRAW_LINES(n)							\
+	printf("+");										\
+	for(cc_fmt = 0;cc_fmt < (n); cc_fmt++) printf("-");	\
+	printf("+");										\
+	for(cc_fmt = 0;cc_fmt < (n); cc_fmt++) printf("-");	\
+	printf("+\n")										
 
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+\n");
-
+	LOCAL_DRAW_LINES(40);
 	printf("|%-40s|%-40s|\n", "value", "address");
-
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+\n");
+	LOCAL_DRAW_LINES(40);
 
 
 	for(; current != NULL; current = current->posterior)
@@ -523,9 +519,6 @@ void list_show_attributes(linked_list_t list)
 		printf("|%-40p|\n", current);
 	}
 
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+");
-	for(cc_fmt = 0;cc_fmt < 40; cc_fmt++) printf("-");
-	printf("+\n");
+	LOCAL_DRAW_LINES(40);
+	#undef LOCAL_DRAW_LINES
 }
