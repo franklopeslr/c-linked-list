@@ -23,6 +23,21 @@ node_t node(value_type_t type, void * value, node_t previous, node_t posterior)
 	return node;
 }
 
+void * node_get_value(node_t node, value_type_t type)
+{
+	switch(type)
+	{
+		case STRING: return node->value.string;
+		break;
+		case INTEGER: return &(node)->value.integer;
+		break;
+		case DECIMAL: return &(node)->value.decimal;
+		break;
+		case CHARACTER: return &(node)->value.character;
+		break;
+	}
+}
+
 void list_iterate(linked_list_t list, void (*callback)(callback_param_t data))
 {
 	if(list == NULL || list->base == NULL || list->length == 0 || callback == NULL)
@@ -476,6 +491,34 @@ void list_delete_by_value(linked_list_t list, void * value)
 	posterior->previous = previous;
 	freemem(node);
 	list->length -= 1;
+}
+
+linked_list_t list_union(linked_list_t A, linked_list_t B)
+{
+	if(A == NULL || B == NULL || A->length == 0 || B->length == 0 || A->type != B->type)
+	{
+		return NULL;
+	}
+	linked_list_t new_list = linked_list(A->type);
+	node_t current = 0;
+
+	for(current = A->base; current != NULL; current = current->posterior)
+	{
+		list_add2top(new_list, node_get_value(current, new_list->type));
+	}
+	for(current = B->base; current != NULL; current = current->posterior)
+	{
+		list_add2top(new_list, node_get_value(current, new_list->type));
+	}
+	return new_list;
+}
+
+linked_list_t list_union_nfree(linked_list_t * A, linked_list_t * B)
+{
+	linked_list_t new_list = list_union(*A, *B);
+	free_list(A);
+	free_list(B);
+	return new_list;
 }
 
 void list_show_attributes(linked_list_t list)

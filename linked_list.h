@@ -50,6 +50,8 @@ __attribute__((visibility("protected")))
 __attribute__((malloc))
 node_t node(value_type_t type, void * value, node_t previous, node_t posterior);
 
+void * node_get_value(node_t node, value_type_t type);
+
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
 void list_iterate(linked_list_t list, void (*callback)(callback_param_t data));
@@ -115,6 +117,9 @@ void list_delete_by_index(linked_list_t list, uint32_t index);
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
 void list_delete_by_value(linked_list_t list, void * value);
+
+linked_list_t list_union(linked_list_t A, linked_list_t B);
+linked_list_t list_union_nfree(linked_list_t * A, linked_list_t * B);
 
 void list_show_attributes(linked_list_t list);
 

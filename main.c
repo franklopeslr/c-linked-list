@@ -18,25 +18,25 @@ void * mapper(callback_param_t data)
 
 int main(const int argc, const char * argv[])
 {
-	linked_list_t filtered = NULL, test = linked_list(INTEGER);
+	linked_list_t A = linked_list(INTEGER), B = linked_list(INTEGER), C = 0;
 	uint32_t i;
 
 	for(i = 0; i < 10; i++)
 	{
-		list_add2top(test, &i);
+		list_add2top(A, &i);
 	}
+	for(i = 10; i < 20; i++)
+	{
+		list_add2top(B, &i);
+	}
+	C = list_union_nfree(&A, &B);
 
-	filtered = list_filter_nfree(&test, filter);
-	filtered = list_map_nfree(&filtered, mapper);
+	list_show_attributes(A);
+	list_show_attributes(B);
+	list_show_attributes(C);
 
-	/**/
-	list_show_attributes(filtered);
-	/**/
-	printf("filtered length: %i\n", filtered->length);
-	/*printf("test length: %i\n", test->length);*/
-
-	free_list(&test);
-	free_list(&filtered);
-	printf("%p %p\n", filtered, test);
+	free_list(&A);
+	free_list(&B);
+	free_list(&C);
 	return 0;
 }
