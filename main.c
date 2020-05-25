@@ -26,16 +26,17 @@ int main(const int argc, const char * argv[])
 		list_add2top(test, &i);
 	}
 
-	filtered = list_filter(test, filter);
-	filtered = list_map_nfree(filtered, mapper);
+	filtered = list_filter_nfree(&test, filter);
+	filtered = list_map_nfree(&filtered, mapper);
 
 	/**/
 	list_show_attributes(filtered);
 	/**/
 	printf("filtered length: %i\n", filtered->length);
-	printf("test length: %i\n", test->length);
+	/*printf("test length: %i\n", test->length);*/
 
-	free_list(test);
-	free_list(filtered);
+	free_list(&test);
+	free_list(&filtered);
+	printf("%p %p\n", filtered, test);
 	return 0;
 }

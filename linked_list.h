@@ -60,7 +60,7 @@ linked_list_t list_filter(linked_list_t list, uint8_t (*test_function)(callback_
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
-linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test_function)(callback_param_t data));
+linked_list_t list_filter_nfree(linked_list_t * list, uint8_t (*test_function)(callback_param_t data));
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
@@ -68,7 +68,7 @@ linked_list_t list_map(linked_list_t list, void * (*mapper)(callback_param_t dat
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
-linked_list_t list_map_nfree(linked_list_t list, void * (*mapper)(callback_param_t data));
+linked_list_t list_map_nfree(linked_list_t * list, void * (*mapper)(callback_param_t data));
 
 __attribute__((visibility("protected")))
 __attribute__((const))
@@ -98,7 +98,7 @@ linked_list_t linked_list(value_type_t type);
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1)))
-void free_list(linked_list_t list);
+void free_list(linked_list_t * list);
 
 __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))

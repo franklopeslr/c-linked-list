@@ -94,14 +94,14 @@ linked_list_t list_filter(linked_list_t list, uint8_t (*test_function)(callback_
 	return filtered_list;
 }
 
-linked_list_t list_filter_nfree(linked_list_t list, uint8_t (*test_function)(callback_param_t data))
+linked_list_t list_filter_nfree(linked_list_t * list, uint8_t (*test_function)(callback_param_t data))
 {
 	if(list == NULL || test_function == NULL)
 	{
 		return NULL;
 	}
 	
-	linked_list_t filtered_list = list_filter(list, test_function);
+	linked_list_t filtered_list = list_filter(*list, test_function);
 	free_list(list);
 	return filtered_list;
 }
@@ -162,14 +162,14 @@ linked_list_t list_map(linked_list_t list, void * (*mapper)(callback_param_t dat
 	return filtered_list;
 }
 
-linked_list_t list_map_nfree(linked_list_t list, void * (*mapper)(callback_param_t data))
+linked_list_t list_map_nfree(linked_list_t * list, void * (*mapper)(callback_param_t data))
 {
 	if(list == NULL || mapper == NULL)
 	{
 		return NULL;
 	}
 
-	linked_list_t filtered_list = list_map(list, mapper);
+	linked_list_t filtered_list = list_map(*list, mapper);
 	free_list(list);
 	return filtered_list;
 }
@@ -350,19 +350,20 @@ linked_list_t linked_list(value_type_t type)
 	return list;
 }
 
-void free_list(linked_list_t list)
+void free_list(linked_list_t * $list)
 {
+	linked_list_t list = *$list;
+
 	if(list == NULL)
 	{
 		return;
 	}
 
-	if(list->length > 0 && list->base != NULL)
+	if(list->base != NULL)
 	{
 		node_t current = list->base;
-		uint32_t i = 0;
 
-		for(; i < list->length; i++)
+		for(;current != NULL;)
 		{
 			node_t aux = current->posterior;
 
@@ -374,12 +375,16 @@ void free_list(linked_list_t list)
 				freemem(current->value.string);
 			}
 
+			#if defined LINKED_LIST_DEBUG
+			printf("deleting at %-20p\n", current);
+			#endif
+
 			freemem(current);
 			current = aux;
+			list->length -= 1;
 		}
 	}
-
-	freemem(list);
+	freemem(*$list);
 }
 
 /* manipulating */
