@@ -115,28 +115,50 @@ linked_list_t list_map(linked_list_t list, void * (*mapper)(callback_param_t dat
 
 	node_t current = 0;
 	linked_list_t filtered_list = linked_list(list->type);
+	void * returned = 0;
+
+	#define LOCAL_MEMCPY(type, typename)				\
+	returned = mapper(&(current)->value.typename);		\
+	if(returned != NULL)								\
+	{													\
+		int buf = cast_##type(returned);				\
+		freemem(returned);								\
+		list_add2top(filtered_list, &buf);				\
+	}
 
 	for(current = list->base; current != NULL; current = current->posterior)
 	{
 		switch(list->type)
 		{
 			case STRING:
-			list_add2top(filtered_list, mapper(current->value.string));
+			returned = mapper(current->value.string);
+
+			if(returned != NULL)
+			{
+				char * buf = strdup((char *) returned);
+
+				if(buf != NULL)
+				{
+					freemem(returned);
+					list_add2top(filtered_list, buf);
+				}
+			}
 			break;
 
 			case INTEGER:
-			list_add2top(filtered_list, mapper(&(current)->value.integer));
+			LOCAL_MEMCPY(int, integer);
 			break;
 
 			case DECIMAL:
-			list_add2top(filtered_list, mapper(&(current)->value.decimal));
+			LOCAL_MEMCPY(double, decimal);
 			break;
 
 			case CHARACTER:
-			list_add2top(filtered_list, mapper(&(current)->value.character));
+			LOCAL_MEMCPY(char, character);
 			break;
 		}
 	}
+	#undef LOCAL_MEMCPY
 	return filtered_list;
 }
 
