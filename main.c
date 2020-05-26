@@ -29,7 +29,8 @@ int main(const int argc, const char * argv[])
 	{
 		list_add2top(B, &i);
 	}
-	C = list_intersection_nfree(&A, &B);
+	
+	C = list_complement_nfree(&A, &B);
 
 	list_show_attributes(A);
 	list_show_attributes(B);

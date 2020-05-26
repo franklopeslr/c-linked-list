@@ -133,6 +133,10 @@ linked_list_t list_intersection(linked_list_t A, linked_list_t B);
 
 linked_list_t list_intersection_nfree(linked_list_t * A, linked_list_t * B);
 
+linked_list_t list_complement(linked_list_t A, linked_list_t B);
+
+linked_list_t list_complement_nfree(linked_list_t * A, linked_list_t * B);
+
 void list_show_attributes(linked_list_t list);
 
 #endif

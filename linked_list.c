@@ -589,6 +589,44 @@ linked_list_t list_intersection_nfree(linked_list_t * A, linked_list_t * B)
 	return new_list;
 }
 
+linked_list_t list_complement(linked_list_t A, linked_list_t B)
+{
+	if(A == NULL || B == NULL || A->length == 0 || B->length == 0 || A->type != B->type)
+	{
+		return NULL;
+	}
+
+	linked_list_t new_list = linked_list(A->type);
+	node_t current_A = 0, current_B = 0;
+
+	for(current_A = A->base; current_A != NULL; current_A = current_A->posterior)
+	{
+		uint8_t equals = 0;
+
+		for(current_B = B->base; current_B != NULL; current_B = current_B->posterior)
+		{
+			if(node_cmp_value(current_A, current_B, new_list->type))
+			{
+				equals = 1;
+			}
+		}
+
+		if(!equals)
+		{
+			list_add2top(new_list, node_get_value(current_A, new_list->type));
+		}
+	}
+	return new_list;
+}
+
+linked_list_t list_complement_nfree(linked_list_t * A, linked_list_t * B)
+{
+	linked_list_t new_list = list_complement(*A, *B);
+	free_list(A);
+	free_list(B);
+	return new_list;
+}
+
 void list_show_attributes(linked_list_t list)
 {
 	if(list == NULL || list->base == NULL || list->length == 0)
