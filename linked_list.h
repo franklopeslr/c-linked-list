@@ -23,6 +23,11 @@ enum value_type
 	STRING
 };
 
+#define INT INTEGER
+#define DOUBLE DECIMAL
+#define CHAR CHARACTER
+#define STRING STRING
+
 union value
 {
 	int integer;

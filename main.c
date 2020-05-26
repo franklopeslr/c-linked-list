@@ -18,7 +18,7 @@ void * mapper(callback_param_t data)
 
 int main(const int argc, const char * argv[])
 {
-	linked_list_t A = linked_list(INTEGER), B = linked_list(INTEGER), C = 0;
+	linked_list_t A = linked_list(INT), B = linked_list(INT), C = 0;
 	uint32_t i;
 
 	for(i = 0; i < 10; i++)
