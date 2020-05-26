@@ -38,6 +38,43 @@ void * node_get_value(node_t node, value_type_t type)
 	}
 }
 
+uint8_t node_cmp_value(node_t node_a, node_t node_b, value_type_t type)
+{
+	uint8_t retval = 0;
+
+	switch(type)
+	{
+		case STRING:
+		if(strcmp(node_a->value.string, node_b->value.string) == 0)
+		{
+			retval = 1;
+		}
+		break;
+
+		case INTEGER:
+		if(node_a->value.integer == node_b->value.integer)
+		{
+			retval = 1;
+		}
+		break;
+
+		case DECIMAL:
+		if(node_a->value.decimal == node_b->value.decimal)
+		{
+			retval = 1;
+		}
+		break;
+
+		case CHARACTER:
+		if(node_a->value.character == node_b->value.character)
+		{
+			retval = 1;
+		}
+		break;
+	}
+	return retval;
+}
+
 void list_iterate(linked_list_t list, void (*callback)(callback_param_t data))
 {
 	if(list == NULL || list->base == NULL || list->length == 0 || callback == NULL)
@@ -516,6 +553,37 @@ linked_list_t list_union(linked_list_t A, linked_list_t B)
 linked_list_t list_union_nfree(linked_list_t * A, linked_list_t * B)
 {
 	linked_list_t new_list = list_union(*A, *B);
+	free_list(A);
+	free_list(B);
+	return new_list;
+}
+
+linked_list_t list_intersection(linked_list_t A, linked_list_t B)
+{
+	if(A == NULL || B == NULL || A->length == 0 || B->length == 0 || A->type != B->type)
+	{
+		return NULL;
+	}
+
+	linked_list_t new_list = linked_list(A->type);
+	node_t current_A = 0, current_B = 0;
+
+	for(current_A = A->base; current_A != NULL; current_A = current_A->posterior)
+	{
+		for(current_B = B->base; current_B != NULL; current_B = current_B->posterior)
+		{
+			if(node_cmp_value(current_A, current_B, new_list->type))
+			{
+				list_add2top(new_list, node_get_value(current_A, new_list->type));
+			}
+		}
+	}
+	return new_list;
+}
+
+linked_list_t list_intersection_nfree(linked_list_t * A, linked_list_t * B)
+{
+	linked_list_t new_list = list_intersection(*A, *B);
 	free_list(A);
 	free_list(B);
 	return new_list;

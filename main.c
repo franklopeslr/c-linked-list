@@ -25,11 +25,11 @@ int main(const int argc, const char * argv[])
 	{
 		list_add2top(A, &i);
 	}
-	for(i = 10; i < 20; i++)
+	for(i = 5; i < 15; i++)
 	{
 		list_add2top(B, &i);
 	}
-	C = list_union_nfree(&A, &B);
+	C = list_intersection_nfree(&A, &B);
 
 	list_show_attributes(A);
 	list_show_attributes(B);
