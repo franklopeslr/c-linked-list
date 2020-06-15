@@ -125,6 +125,10 @@ __attribute__((visibility("protected")))
 __attribute__((nonnull(1,2)))
 void list_delete_by_value(linked_list_t list, void * value);
 
+__attribute__((visibility("protected")))
+__attribute__((nonnull(1)))
+void list_delete_top(linked_list_t list);
+
 linked_list_t list_union(linked_list_t A, linked_list_t B);
 
 linked_list_t list_union_nfree(linked_list_t * A, linked_list_t * B);

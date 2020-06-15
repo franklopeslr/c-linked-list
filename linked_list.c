@@ -530,6 +530,21 @@ void list_delete_by_value(linked_list_t list, void * value)
 	list->length -= 1;
 }
 
+void list_delete_top(linked_list_t list)
+{
+	if(list == NULL || list->length == 0)
+	{
+		return;
+	}
+
+	node_t top = list->top;
+
+	list->top->previous->posterior = NULL;
+	list->top = list->top->previous;
+	freemem(top);
+	list->length -= 1;
+}
+
 linked_list_t list_union(linked_list_t A, linked_list_t B)
 {
 	if(A == NULL || B == NULL || A->length == 0 || B->length == 0 || A->type != B->type)

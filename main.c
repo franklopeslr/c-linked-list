@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "linked_list.h"
+#include "stack.h"
 
 uint8_t filter(callback_param_t data)
 {
@@ -23,21 +24,22 @@ int main(const int argc, const char * argv[])
 
 	for(i = 0; i < 10; i++)
 	{
-		list_add2top(A, &i);
+		stack_push(A, &i);
 	}
 	for(i = 5; i < 15; i++)
 	{
-		list_add2top(B, &i);
+		stack_push(B, &i);
 	}
 	
 	C = list_complement_nfree(&A, &B);
-
+	stack_pop(C);
+	
 	list_show_attributes(A);
 	list_show_attributes(B);
 	list_show_attributes(C);
 
 	free_list(&A);
 	free_list(&B);
-	free_list(&C);
+	stack_delete(&C);
 	return 0;
 }
