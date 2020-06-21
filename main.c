@@ -19,7 +19,7 @@ void * mapper(callback_param_t data)
 
 int main(const int argc, const char * argv[])
 {
-	linked_list_t A = linked_list(INT), B = linked_list(INT), C = 0;
+	linked_list_t A = stack_init(INT), B = stack_init(INT), C = 0;
 	uint32_t i;
 
 	for(i = 0; i < 10; i++)
@@ -38,8 +38,8 @@ int main(const int argc, const char * argv[])
 	list_show_attributes(B);
 	list_show_attributes(C);
 
-	free_list(&A);
-	free_list(&B);
+	stack_delete(&A);
+	stack_delete(&B);
 	stack_delete(&C);
 	return 0;
 }
