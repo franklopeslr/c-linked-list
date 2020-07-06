@@ -177,6 +177,7 @@ linked_list_t list_map(linked_list_t list, void * (*mapper)(callback_param_t dat
 		freemem(returned);								\
 		list_add2top(filtered_list, &buf);				\
 	}
+	
 
 	for(current = list->base; current != NULL; current = current->posterior)
 	{
@@ -364,15 +365,15 @@ void set_node_value(node_t node, value_type_t type, void * data)
 	switch(type)
 	{
 		case INTEGER:
-			value.integer = *((int *) data);
+			value.integer = cast_int(data);/**((int *) data)*/;
 			break;
 
 		case DECIMAL:
-			value.decimal = *((double *) data);
+			value.decimal = cast_double(data);/**((double *) data)*/;
 			break;
 
 		case CHARACTER:
-			value.character = *((char *) data);
+			value.character = cast_char(data);/**((char *) data)*/;
 			break;
 
 		case STRING:
